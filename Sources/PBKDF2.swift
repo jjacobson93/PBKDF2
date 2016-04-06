@@ -13,7 +13,7 @@ import CryptoEssentials
 public final class PBKDF2 {
     /// Used for applying an HMAC variant on a password and salt
     private static func digest(password: [Byte], data: [Byte], variant: HashProtocol.Type) throws -> [Byte] {
-        return HMAC.authenticate(key: password, message: data, variant: variant)
+        return HMAC.authenticate(data, withKey: password, using: variant)
     }
     
     /// Applies the `hi` (PBKDF2 with HMAC as PseudoRandom Function)
