@@ -14,9 +14,9 @@ PBKDF2 is a library that provides PBKDF2 key derivation support on top of Crypto
 ## Usage
 
 ```swift
-var passwordBytes = [UInt8](), salt: [UInt8]()
+var passwordBytes = [UInt8](), salt = [UInt8]()
 passwordBytes.append(contentsOf: "hunter2".utf8)
-salt.append(contentsOf: "r4nd0ms4lT!)
+salt.append(contentsOf: "r4nd0ms4lT!")
 
 let sha1hash = PBKDF2<SHA1>(passwordBytes, salt: salt, iterations: 10000)
 let sha256hash = PBKDF2<SHA2<SHA256>>(passwordBytes, salt: salt, iterations: 10000)
