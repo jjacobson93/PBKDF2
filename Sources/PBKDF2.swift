@@ -8,6 +8,17 @@
 
 import HMAC
 import CryptoEssentials
+import Foundation
+
+#if !swift(>=3.0)
+    public enum PBKDF2Error: ErrorType {
+        case invalidInput
+    }
+#else
+    public enum PBKDF2Error: ErrorProtocol {
+        case invalidInput
+    }
+#endif
 
 public final class PBKDF2<Variant: HashProtocol> {
     /// Used for applying an HMAC variant on a password and salt
@@ -15,27 +26,60 @@ public final class PBKDF2<Variant: HashProtocol> {
         return HMAC<Variant>.authenticate(message: data, withKey: password)
     }
     
-    /// Applies the `hi` (PBKDF2 with HMAC as PseudoRandom Function)
-    public static func calculate(_ password: [UInt8], salt: [UInt8], iterations: Int) throws -> [UInt8] {
-        var salt = salt
-        salt.append(contentsOf: [0, 0, 0, 1])
+    /// Used to make the block number
+    /// Credit to Marcin Krzyzanowski
+    private static func blockNumSaltThing(blockNum blockNum: UInt) -> [UInt8] {
+        #if !swift(>=3.0)
+            var inti = [UInt8](count: 4, repeatedValue: 0)
+        #else
+            var inti = [UInt8](repeating: 0, count: 4)
+        #endif
         
-        var ui = try digest(password, data: salt)
-        var u1 = ui
-        
-        for _ in 0..<iterations - 1 {
-            u1 = try digest(password, data: u1)
-            ui = xor(ui, u1)
-        }
-        
-        return ui
+        inti[0] = UInt8((blockNum >> 24) & 0xFF)
+        inti[1] = UInt8((blockNum >> 16) & 0xFF)
+        inti[2] = UInt8((blockNum >> 8) & 0xFF)
+        inti[3] = UInt8(blockNum & 0xFF)
+        return inti
     }
     
     /// Applies the `hi` (PBKDF2 with HMAC as PseudoRandom Function)
-    public static func calculate(_ password: String, salt: [UInt8], iterations: Int) throws -> [UInt8] {
-        var passwordBytes = [UInt8]()
-        passwordBytes.append(contentsOf: password.utf8)
+    public static func calculate(_ password: [UInt8], usingSalt salt: [UInt8], iterating iterations: Int, keySize: Int? = nil) throws -> [UInt8] {
+        guard iterations > 0 && password.count > 0 && salt.count > 0 && keySize <= Int(((pow(2,32) as Double) - 1) * Double(Variant.size)) else {
+            throw PBKDF2Error.invalidInput
+        }
         
-        return try self.calculate(passwordBytes, salt: salt, iterations: iterations)
+        let blocks = UInt(ceil(Double(keySize ?? Variant.size) / Double(Variant.size)))
+        var response = [UInt8]()
+        
+        for block in 1...blocks {
+            var s = salt
+            
+            #if !swift(>=3.0)
+                s.appendContentsOf(self.blockNumSaltThing(blockNum: block))
+            #else
+                s.append(contentsOf: self.blockNumSaltThing(blockNum: block))
+            #endif
+            
+            var ui = try digest(password, data: s)
+            var u1 = ui
+            
+            for _ in 0..<iterations - 1 {
+                u1 = try digest(password, data: u1)
+                ui = xor(ui, u1)
+            }
+                
+            #if !swift(>=3.0)
+                response.appendContentsOf(ui)
+            #else
+                response.append(contentsOf: ui)
+            #endif
+        }
+        
+        return response
+    }
+    
+    /// Applies the `hi` (PBKDF2 with HMAC as PseudoRandom Function)
+    public static func calculate(_ password: String, usingSalt salt: [UInt8], iterating iterations: Int) throws -> [UInt8] {
+        return try self.calculate([UInt8](password.utf8), usingSalt: salt, iterating: iterations)
     }
 }
