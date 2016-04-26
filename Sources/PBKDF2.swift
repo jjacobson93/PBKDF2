@@ -79,7 +79,7 @@ public final class PBKDF2<Variant: HashProtocol> {
     }
     
     /// Applies the `hi` (PBKDF2 with HMAC as PseudoRandom Function)
-    public static func calculate(_ password: String, usingSalt salt: [UInt8], iterating iterations: Int) throws -> [UInt8] {
-        return try self.calculate([UInt8](password.utf8), usingSalt: salt, iterating: iterations)
+    public static func calculate(_ password: String, usingSalt salt: [UInt8], iterating iterations: Int, keySize: Int? = nil) throws -> [UInt8] {
+        return try self.calculate([UInt8](password.utf8), usingSalt: salt, iterating: iterations, keySize: keySize)
     }
 }
