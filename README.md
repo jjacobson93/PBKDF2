@@ -16,14 +16,14 @@ PBKDF2 is a library that provides PBKDF2 key derivation support on top of Crypto
 ```swift
 var passwordBytes = [UInt8]("hunter2".utf8), salt = [UInt8]("r4nd0ms4lT!".utf8)
 
-let sha1hash = try! PBKDF2<SHA1>.calculate(passwordBytes, salt: salt, iterations: 10000)
+let sha1hash = try PBKDF2<SHA1>.calculate(passwordBytes, salt: salt, iterations: 10000)
 
 // You can use other algorithms too, and strings for passwords
-let sha256hash = try! PBKDF2<SHA2<SHA256>>.calculate("mypassword", salt: salt, iterations: 10000)
+let sha256hash = try PBKDF2<SHA2<SHA256>>.calculate("mypassword", salt: salt, iterations: 10000)
 
 // Plus you can specify the return key size
 // Also.. please don't use PBKDF2 with MD5 for password hashing..
-let sha1hash = try! PBKDF2<MD5>.calculate(passwordBytes, salt: salt, iterations: 10000, keySize: 128)
+let sha1hash = try PBKDF2<MD5>.calculate(passwordBytes, salt: salt, iterations: 10000, keySize: 128)
 
 print(sha256hash.hexString)
 ```
