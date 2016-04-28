@@ -22,7 +22,7 @@ let sha1hash = try! PBKDF2<SHA1>.calculate(passwordBytes, salt: salt, iterations
 let sha256hash = try! PBKDF2<SHA2<SHA256>>.calculate("mypassword", salt: salt, iterations: 10000)
 
 // Plus you can specify the return key size
-// Don't do this.. please
+// Also.. please don't use PBKDF2 with MD5 for password hashing..
 let sha1hash = try! PBKDF2<MD5>.calculate(passwordBytes, salt: salt, iterations: 10000, keySize: 128)
 
 print(sha256hash.hexString)
