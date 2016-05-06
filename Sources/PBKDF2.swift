@@ -10,15 +10,9 @@ import HMAC
 import CryptoEssentials
 import Foundation
 
-#if !swift(>=3.0)
-    public enum PBKDF2Error: ErrorType {
-        case invalidInput
-    }
-#else
-    public enum PBKDF2Error: ErrorProtocol {
-        case invalidInput
-    }
-#endif
+public enum PBKDF2Error: ErrorProtocol {
+    case invalidInput
+}
 
 public final class PBKDF2<Variant: HashProtocol> {
     /// Used for applying an HMAC variant on a password and salt
@@ -28,13 +22,8 @@ public final class PBKDF2<Variant: HashProtocol> {
     
     /// Used to make the block number
     /// Credit to Marcin Krzyzanowski
-    private static func blockNumSaltThing(blockNum blockNum: UInt) -> [UInt8] {
-        #if !swift(>=3.0)
-            var inti = [UInt8](count: 4, repeatedValue: 0)
-        #else
-            var inti = [UInt8](repeating: 0, count: 4)
-        #endif
-        
+    private static func blockNumSaltThing(blockNum: UInt) -> [UInt8] {
+        var inti = [UInt8](repeating: 0, count: 4)
         inti[0] = UInt8((blockNum >> 24) & 0xFF)
         inti[1] = UInt8((blockNum >> 16) & 0xFF)
         inti[2] = UInt8((blockNum >> 8) & 0xFF)
@@ -53,12 +42,7 @@ public final class PBKDF2<Variant: HashProtocol> {
         
         for block in 1...blocks {
             var s = salt
-            
-            #if !swift(>=3.0)
-                s.appendContentsOf(self.blockNumSaltThing(blockNum: block))
-            #else
-                s.append(contentsOf: self.blockNumSaltThing(blockNum: block))
-            #endif
+            s.append(contentsOf: self.blockNumSaltThing(blockNum: block))
             
             var ui = try digest(password, data: s)
             var u1 = ui
@@ -67,12 +51,8 @@ public final class PBKDF2<Variant: HashProtocol> {
                 u1 = try digest(password, data: u1)
                 ui = xor(ui, u1)
             }
-                
-            #if !swift(>=3.0)
-                response.appendContentsOf(ui)
-            #else
-                response.append(contentsOf: ui)
-            #endif
+            
+            response.append(contentsOf: ui)
         }
         
         return response
