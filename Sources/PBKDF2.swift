@@ -26,6 +26,7 @@ public final class PBKDF2<Variant: HashProtocol> {
         var inti = [UInt8](repeating: 0, count: 4)
         inti[0] = UInt8((blockNum >> 24) & 0xFF)
         inti[1] = UInt8((blockNum >> 16) & 0xFF)
+        
         inti[2] = UInt8((blockNum >> 8) & 0xFF)
         inti[3] = UInt8(blockNum & 0xFF)
         return inti
