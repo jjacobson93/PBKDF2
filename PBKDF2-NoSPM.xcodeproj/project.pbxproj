@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0AF864DF1D047D5500481EDC /* Sources in Resources */ = {isa = PBXBuildFile; fileRef = 0AF864DE1D047D5500481EDC /* Sources */; };
+		0AF81A321D04900B00543544 /* HMAC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF81A311D04900B00543544 /* HMAC.framework */; };
+		0AF81A341D04901D00543544 /* PBKDF2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF81A331D04901D00543544 /* PBKDF2.swift */; };
 		0AF864E41D047DE000481EDC /* CryptoEssentials.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF864E31D047DE000481EDC /* CryptoEssentials.framework */; };
+		0AF864E71D04825700481EDC /* CryptoEssentials.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF864E31D047DE000481EDC /* CryptoEssentials.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,10 +24,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0AF864DD1D047D4D00481EDC /* NoSPM */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NoSPM; sourceTree = "<group>"; };
-		0AF864DE1D047D5500481EDC /* Sources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sources; sourceTree = "<group>"; };
-		0AF864E01D047D7600481EDC /* PBKDF2-NoSPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PBKDF2-NoSPM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0AF864E11D047D7600481EDC /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AF81A311D04900B00543544 /* HMAC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HMAC.framework; path = Carthage/Build/Mac/HMAC.framework; sourceTree = "<group>"; };
+		0AF81A331D04901D00543544 /* PBKDF2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PBKDF2.swift; path = Sources/PBKDF2.swift; sourceTree = "<group>"; };
+		0AF81A351D04902D00543544 /* NoSPM */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NoSPM; sourceTree = "<group>"; };
+		0AF864E01D047D7600481EDC /* PBKDF2-NoSPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "PBKDF2-NoSPM.app"; path = "/Users/joannis/Documents/CryptoKitten/PBKDF2/build/Debug-iphoneos/PBKDF2-NoSPM.app"; sourceTree = "<absolute>"; };
+		0AF864E11D047D7600481EDC /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = UnitTests.xctest; path = "/Users/joannis/Documents/CryptoKitten/PBKDF2/build/Debug-iphoneos/UnitTests.xctest"; sourceTree = "<absolute>"; };
 		0AF864E21D047D7600481EDC /* PBKDF2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PBKDF2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF864E31D047DE000481EDC /* CryptoEssentials.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoEssentials.framework; path = Carthage/Build/Mac/CryptoEssentials.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -35,6 +38,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AF81A321D04900B00543544 /* HMAC.framework in Frameworks */,
+				0AF864E71D04825700481EDC /* CryptoEssentials.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,11 +64,10 @@
 		CBFE1380CE0E87608DD9164C = {
 			isa = PBXGroup;
 			children = (
+				0AF81A351D04902D00543544 /* NoSPM */,
+				0AF81A331D04901D00543544 /* PBKDF2.swift */,
+				0AF81A311D04900B00543544 /* HMAC.framework */,
 				0AF864E31D047DE000481EDC /* CryptoEssentials.framework */,
-				0AF864DE1D047D5500481EDC /* Sources */,
-				0AF864DD1D047D4D00481EDC /* NoSPM */,
-				0AF864E01D047D7600481EDC /* PBKDF2-NoSPM.app */,
-				0AF864E11D047D7600481EDC /* UnitTests.xctest */,
 				0AF864E21D047D7600481EDC /* PBKDF2.framework */,
 			);
 			indentWidth = 4;
@@ -179,7 +183,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AF864DF1D047D5500481EDC /* Sources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AF81A341D04901D00543544 /* PBKDF2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +284,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -315,6 +323,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

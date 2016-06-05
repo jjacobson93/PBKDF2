@@ -1,1 +1,2 @@
 github "CryptoKitten/CryptoEssentials" "0.7.3"
+github "CryptoKitten/HMAC" "0.7.1"
