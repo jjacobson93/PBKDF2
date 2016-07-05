@@ -1,7 +1,7 @@
 .DS_Store
 /.build
 /Packages
-.xcodeproj
+PBKDF2.xcodeproj
 
 # Created by https://www.gitignore.io/api/xcode
 
