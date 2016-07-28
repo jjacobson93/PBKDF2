@@ -10,7 +10,7 @@ import HMAC
 import CryptoEssentials
 import Foundation
 
-public enum PBKDF2Error: ErrorProtocol {
+public enum PBKDF2Error: Error {
     case invalidInput
 }
 
@@ -33,11 +33,12 @@ public final class PBKDF2<Variant: HashProtocol> {
     
     /// Applies the `hi` (PBKDF2 with HMAC as PseudoRandom Function)
     public static func calculate(_ password: [UInt8], usingSalt salt: [UInt8], iterating iterations: Int, keySize: Int? = nil) throws -> [UInt8] {
+        let keySize = keySize ?? Variant.size
         guard iterations > 0 && password.count > 0 && salt.count > 0 && keySize <= Int(((pow(2,32) as Double) - 1) * Double(Variant.size)) else {
             throw PBKDF2Error.invalidInput
         }
         
-        let blocks = UInt(ceil(Double(keySize ?? Variant.size) / Double(Variant.size)))
+        let blocks = UInt(ceil(Double(keySize) / Double(Variant.size)))
         var response = [UInt8]()
         
         for block in 1...blocks {
